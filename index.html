@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Ficha Médica</title>
+    <style>
+        /* Estilos CSS para el formulario */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <form id="formulario-ficha" onsubmit="return validarFormulario()">
+        <label for="rut">Rut:</label>
+        <input type="text" id="rut" name="rut" required>
+        <span id="error-rut" class="error"></span>
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" name="nombres" required>
+        <span id="error-nombres" class="error"></span>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos" required>
+        <span id="error-apellidos" class="error"></span>
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion" required>
+        <span id="error-direccion" class="error"></span>
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" name="ciudad" required>
+        <span id="error-ciudad" class="error"></span>
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" required>
+        <span id="error-telefono" class="error"></span>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <span id="error-email" class="error"></span>
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+        <span id="error-fecha_nacimiento" class="error"></span>
+        <label for="estado_civil">Estado Civil:</label>
+        <select id="estado_civil" name="estado_civil" required>
+            <option value="soltero">Soltero/a</option>
+            <option value="casado">Casado/a</option>
+            <option value="viudo">Viudo/a</option>
+            <option value="divorciado">Divorciado/a</option>
+        </select>
+        <span id="error-estado_civil" class="error"></span>
+        <label for="comentarios">Comentarios:</label>
+        <textarea id="comentarios" name="comentarios"></textarea>
+        <button type="submit">Guardar</button>
+        <button type="button" onclick="limpiarFormulario()">Limpiar</button>
+        <button type="button" onclick="cerrarFormulario()">Cerrar</button>
+
+        <!-- Campo de búsqueda por apellido -->
+        <label for="buscar_apellido">Buscar por Apellido:</label>
+        <input type="text" id="buscar_apellido" name="buscar_apellido">
+        <button type="button" onclick="buscarPorApellido()">Buscar</button>
+    </form>
+
+    <script>
+        function validarFormulario() {
+            var rut = document.getElementById("rut").value.trim();
+            var nombres = document.getElementById("nombres").value.trim();
+            var apellidos = document.getElementById("apellidos").value.trim();
+            var direccion = document.getElementById("direccion").value.trim();
+            var ciudad = document.getElementById("ciudad").value.trim();
+            var telefono = document.getElementById("telefono").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var fecha_nacimiento = document.getElementById("fecha_nacimiento").value.trim();
+            var estado_civil = document.getElementById("estado_civil").value;
+
+            // Validación de cada campo
+            var rutValido = validarRut(rut);
+            var nombresValidos = validarTexto(nombres);
+            var apellidosValidos = validarTexto(apellidos);
+            var direccionValida = validarTexto(direccion);
+            var ciudadValida = validarTexto(ciudad);
+            var telefonoValido = validarTelefono(telefono);
+            var emailValido = validarEmail(email);
+            var fechaValida = validarFecha(fecha_nacimiento);
+
+            // Mostrar mensajes de error si corresponde
+            mostrarError("rut", rutValido);
+            mostrarError("nombres", nombresValidos);
+            mostrarError("apellidos", apellidosValidos);
+            mostrarError("direccion", direccionValida);
+            mostrarError("ciudad", ciudadValida);
+            mostrarError("telefono", telefonoValido);
+            mostrarError("email", emailValido);
+            mostrarError("fecha_nacimiento", fechaValida);
+
+            // Devolver true si todos los campos son válidos, false si hay algún error
+            return rutValido && nombresValidos && apellidosValidos && direccionValida &&
+                ciudadValida && telefonoValido && emailValido && fechaValida;
+        }
+
+        function validarRut(rut) {
+            // Lógica de validación de Rut
+            return true; // Cambiar esta línea según la validación que desees implementar
+        }
+
+        function validarTexto(texto) {
+            // Lógica de validación de texto (puede ser más específica según tus necesidades)
+            return texto.length > 0;
+        }
+
+        function validarTelefono(telefono) {
+            // Lógica de validación de teléfono (puede ser más específica según tus necesidades)
+            return /^\d{9}$/.test(telefono);
+        }
+
+        function validarEmail(email) {
+            // Lógica de validación de email (puede ser más específica según tus necesidades)
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validarFecha(fecha) {
+            // Lógica de validación de fecha (puede ser más específica según tus necesidades)
+            return /^\d{4}-\d{2}-\d{2}$/.test(fecha);
+        }
+
+        function mostrarError(campo, valido) {
+            var errorSpan = document.getElementById("error-" + campo);
+            if (!valido) {
+                errorSpan.textContent = "Por favor ingrese un valor válido.";
+            } else {
+                errorSpan.textContent = "";
+            }
+        }
+
+        function limpiarFormulario() {
+            document.getElementById("formulario-ficha").reset();
+            // Limpiar mensajes de error
+            var campos = ["rut", "nombres", "apellidos", "direccion", "ciudad", "telefono", "email", "fecha_nacimiento"];
+            campos.forEach(function(campo) {
+                mostrarError(campo, true);
+            });
+        }
+
+        function cerrarFormulario() {
+            alert("Formulario cerrado");
+        }
+
+        // Función para buscar por apellido
+        function buscarPorApellido() {
+            var apellidoABuscar = document.getElementById("buscar_apellido").value.trim();
+            // Realizar la lógica de búsqueda aquí, por ejemplo, puedes enviar el apellido a un servidor y recibir los resultados
+            alert("Buscar por apellido: " + apellidoABuscar);
+        }
+    </script>
+</body>
+</html>
